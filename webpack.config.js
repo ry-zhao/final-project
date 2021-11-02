@@ -32,14 +32,16 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: process.env.DEV_SERVER_PORT,
-    publicPath: '/',
-    contentBase: serverPublicPath,
-    watchContentBase: true,
-    stats: 'minimal',
+    static: {
+      directory: serverPublicPath,
+      publicPath: '/',
+      watch: true
+    },
     proxy: {
       '/api': `http://localhost:${process.env.PORT}`
     }
   },
+  stats: 'summary',
   performance: {
     hints: false
   }
