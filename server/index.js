@@ -32,10 +32,6 @@ io.on('connection', socket => {
 app.use(staticMiddleware);
 app.use(express.json());
 
-app.get('/test', (req, res) => {
-  res.status(200).send('<h1>Hi</h1>');
-});
-
 app.post('/entername', (req, res) => {
   const { screenName } = req.body;
   const sql = `
@@ -56,12 +52,11 @@ app.post('/entername', (req, res) => {
         return result;
       }
     })
-    // .then(result => res.status(200).json({ id: result.rows[0].screenNameId, screenName: result.rows[0].screenName }))
     .then(result => {
       if (!activeUsers[screenName]) {
         res.status(200).send();
       } else {
-        res.status(201).json({ error: 'Screen name is currently in use!' });
+        res.status(409).json({ error: 'Screen name is currently in use!' });
       }
     })
     .catch(err => {

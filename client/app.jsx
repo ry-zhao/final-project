@@ -46,8 +46,23 @@ export default class App extends React.Component {
 
     return (
       <>
+        <header>
+          <nav>
+            <div className="nav-wrapper bg-columbia-blue">
+              <a href="#" className="brand-logo center bright-gray">Rooms</a>
+            </div>
+          </nav>
+        </header>
         {loginOverlay}
-        <Home/>
+        <main>
+          <Home/>
+        </main>
+        <footer className="page-footer height-4rem bg-columbia-blue">
+          <div className="container">
+            <div className="row">
+            </div>
+          </div>
+        </footer>
 
       </>
     );
