@@ -1,0 +1,128 @@
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h5,
+h6 {
+  text-align: center;
+}
+
+.row {
+  margin: 0;
+}
+
+/* label focus color */
+.input-field.custom input[type="text"]:focus + label {
+  color: #4fa5c1;
+}
+
+/* label underline focus color */
+.input-field.custom input[type="text"]:focus {
+  border-bottom: 1px solid #4fa5c1;
+  box-shadow: 0 1px 0 0 #4fa5c1;
+}
+
+.overlay {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  background-color: rgb(0 0 0 / 80%);
+  z-index: 2;
+}
+
+.custom-modal {
+  position: absolute;
+  height: 16rem;
+  width: 80%;
+  top: 15%;
+  left: 50%;
+  border-radius: 12px;
+  border: 2px solid #4fa5c1;
+  transform: translateX(-50%);
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+}
+
+.flex {
+  display: flex;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.absolute.center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottom-1rem {
+  bottom: 1.5rem;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.height-4rem {
+  height: 4rem;
+}
+
+.width-80-percent {
+  width: 80%;
+}
+
+.red-text-only {
+  color: red;
+}
+
+.fountain-blue {
+  color: #4fa5c1;
+}
+
+.bright-gray {
+  color: #36374a;
+}
+
+.bg-columbia-blue {
+  background-color: #c0d8e0;
+}
+
+.bg-tea-green {
+  background-color: #d4eac8;
+}
+
+.bg-light-gray {
+  background-color: #f0f0f0;
+}
+
+.brand-logo.bright-gray {
+  color: #36374a;
+}
+
+.btn {
+  color: #36374a;
+}
+
+.btn.bg-tea-green.custom:hover {
+  background-color: #b0e991;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .custom-modal {
+    max-width: 65rem;
+  }
+}

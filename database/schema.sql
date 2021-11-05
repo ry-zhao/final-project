@@ -5,3 +5,26 @@ set client_min_messages to warning;
 drop schema "public" cascade;
 
 create schema "public";
+
+CREATE TABLE "public"."users" (
+	"screenNameId" serial NOT NULL,
+	"screenName" TEXT NOT NULL,
+	CONSTRAINT "users_pk" PRIMARY KEY ("screenNameId")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public"."gameRooms" (
+	"roomId" serial NOT NULL,
+	"roomName" TEXT NOT NULL,
+	"storeValues" json NOT NULL,
+	"pitValues" json NOT NULL,
+	"playerOne" integer NOT NULL,
+	"playerTwo" integer NOT NULL,
+	CONSTRAINT "gameRooms_pk" PRIMARY KEY ("roomId")
+) WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "gameRooms" ADD CONSTRAINT "gameRooms_fk0" FOREIGN KEY ("playerOne") REFERENCES "users"("screenNameId");
+ALTER TABLE "gameRooms" ADD CONSTRAINT "gameRooms_fk1" FOREIGN KEY ("playerTwo") REFERENCES "users"("screenNameId");
