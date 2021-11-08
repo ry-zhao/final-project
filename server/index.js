@@ -19,6 +19,15 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const activeUsers = {};
+const activeRooms = {};
+
+db.query('select * from "gameRooms"')
+  .then(result => {
+    for (let i = 0; i < result.rows.length; i++) {
+      activeRooms[result.rows[i].roomId] = result.rows[i];
+    }
+  })
+  .catch(err => console.error(err));
 
 io.on('connection', socket => {
   const { screenName } = socket.handshake.query;
