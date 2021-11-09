@@ -50,7 +50,6 @@ app.get('/api/test', (req, res) => {
 });
 
 app.post('/api/newroom', (req, res) => {
-  console.log(req.body);
   const { roomName } = req.body;
   const sql = `
     insert into "gameRooms" ("roomName")

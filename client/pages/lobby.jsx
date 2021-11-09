@@ -11,8 +11,8 @@ export default class Lobby extends React.Component {
               <span className="card-title">{room.roomName}</span>
             </div>
             <div className="card-action text-align-right">
-              <a href="#">View</a>
-              <a href="#">Join</a>
+              <a className="waves-effect waves-light btn custom bg-columbia-blue margin-right-1rem" href="#lobby">View</a>
+              <a className="waves-effect waves-green btn custom bg-tea-green" href="#lobby">Join</a>
             </div>
           </div>
         </div>

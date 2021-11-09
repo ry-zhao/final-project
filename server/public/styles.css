@@ -83,6 +83,10 @@ header {
   position: absolute;
 }
 
+.margin-right-1rem {
+  margin-right: 1rem;
+}
+
 .absolute.center {
   left: 50%;
   transform: translateX(-50%);
@@ -157,7 +161,12 @@ header {
 }
 
 .btn-floating.btn-large.waves-effect.waves-light.custom:hover {
-  background-color: #2b819e;
+  background-color: #3ca8cc;
+}
+
+.btn.custom.bg-columbia-blue:hover {
+  background-color: #a2daec;
+  cursor: pointer;
 }
 
 .btn.bg-tea-green.custom:hover {
@@ -165,13 +174,17 @@ header {
   cursor: pointer;
 }
 
+.btn.bg-tea-green.custom:focus {
+  background-color: #d4eac8;
+}
+
+.btn.custom.bg-columbia-blue:focus {
+  background-color: #c0d8e0;
+}
+
 @media screen and (min-width: 768px) {
   .custom-modal {
     max-width: 65rem;
-  }
-
-  .page-footer {
-    display: none;
   }
 
   .width-100-percent-dt {

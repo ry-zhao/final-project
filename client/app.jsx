@@ -170,10 +170,6 @@ export default class App extends React.Component {
     this.setState(prevState => ({
       newRoomModal: true
     }));
-    fetch('/api/test')
-      .then(result => result.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
   }
 
   updateRoomInput(event) {
