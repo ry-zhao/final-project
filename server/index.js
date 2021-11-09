@@ -19,7 +19,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const activeUsers = {};
-const activeRooms = {};
+const activeRooms = [];
 
 db.query('select * from "gameRooms"')
   .then(result => {
@@ -30,9 +30,9 @@ db.query('select * from "gameRooms"')
   .catch(err => console.error(err));
 
 io.on('connection', socket => {
+  socket.join('lobby');
   const { screenName } = socket.handshake.query;
-  const { id: socketId } = socket;
-  activeUsers[screenName] = { socketId };
+  activeUsers[screenName] = { socket };
   socket.on('disconnect', socket => {
     delete activeUsers[screenName];
   });
@@ -41,7 +41,34 @@ io.on('connection', socket => {
 app.use(staticMiddleware);
 app.use(express.json());
 
-app.post('/entername', (req, res) => {
+app.get('/api/rooms', (req, res) => {
+  res.status(200).json(activeRooms);
+});
+
+app.get('/api/test', (req, res) => {
+  res.status(200).json({ it: 'worked' });
+});
+
+app.post('/api/newroom', (req, res) => {
+  console.log(req.body);
+  const { roomName } = req.body;
+  const sql = `
+    insert into "gameRooms" ("roomName")
+      values ($1)
+    returning *
+  `;
+  const params = [roomName];
+  db.query(sql, params)
+    .then(result => {
+      const newRoom = result.rows[0];
+      activeRooms[newRoom.roomId] = newRoom;
+      io.emit('room update', activeRooms);
+      res.status(201).json(newRoom);
+    })
+    .catch(err => console.error(err));
+});
+
+app.post('/api/entername', (req, res) => {
   const { screenName } = req.body;
   const sql = `
     select * from "users"
