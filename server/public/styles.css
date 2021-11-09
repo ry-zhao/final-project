@@ -1,6 +1,6 @@
 #root {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   flex-direction: column;
 }
 
@@ -13,8 +13,28 @@ h6 {
   text-align: center;
 }
 
+ol {
+  margin: auto;
+}
+
+header {
+  position: sticky;
+}
+
 .row {
   margin: 0;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.page-footer {
+  position: relative;
 }
 
 /* label focus color */
@@ -29,7 +49,7 @@ h6 {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -47,7 +67,12 @@ h6 {
   border: 2px solid #4fa5c1;
   transform: translateX(-50%);
   background-color: #fff;
+  border-radius: 2px;
   box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+}
+
+.room-card {
+  border: 2px solid #4fa5c1;
 }
 
 .flex {
@@ -56,6 +81,10 @@ h6 {
 
 .absolute {
   position: absolute;
+}
+
+.margin-right-1rem {
+  margin-right: 1rem;
 }
 
 .absolute.center {
@@ -83,6 +112,10 @@ h6 {
   width: 80%;
 }
 
+.height-2p5rem {
+  height: 2.5rem;
+}
+
 .red-text-only {
   color: red;
 }
@@ -97,6 +130,10 @@ h6 {
 
 .bg-columbia-blue {
   background-color: #c0d8e0;
+}
+
+.bg-fountain-blue {
+  background-color: #4fa5c1;
 }
 
 .bg-tea-green {
@@ -115,9 +152,34 @@ h6 {
   color: #36374a;
 }
 
+.btn-floating.btn-large.waves-effect.waves-light.custom {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4fa5c1;
+}
+
+.btn-floating.btn-large.waves-effect.waves-light.custom:hover {
+  background-color: #3ca8cc;
+}
+
+.btn.custom.bg-columbia-blue:hover {
+  background-color: #a2daec;
+  cursor: pointer;
+}
+
 .btn.bg-tea-green.custom:hover {
   background-color: #b0e991;
   cursor: pointer;
+}
+
+.btn.bg-tea-green.custom:focus {
+  background-color: #d4eac8;
+}
+
+.btn.custom.bg-columbia-blue:focus {
+  background-color: #c0d8e0;
 }
 
 @media screen and (min-width: 768px) {
@@ -125,7 +187,11 @@ h6 {
     max-width: 65rem;
   }
 
-  .page-footer {
-    display: none;
+  .width-100-percent-dt {
+    width: 100%;
+  }
+
+  .width-50-percent-dt {
+    width: 50%;
   }
 }
