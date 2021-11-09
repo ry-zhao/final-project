@@ -8,14 +8,14 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signedIn: false,
       nameRejected: false,
       screenName: '',
       route: parseRoute(window.location.hash),
       socket: null,
       rooms: [],
-      newRoomModal: false,
-      roomInput: ''
+      modal: 'login',
+      roomInput: '',
+      currentRoom: 'lobby'
     };
     this.updateScreenName = this.updateScreenName.bind(this);
     this.sendName = this.sendName.bind(this);
@@ -23,6 +23,7 @@ export default class App extends React.Component {
     this.openNewRoomModal = this.openNewRoomModal.bind(this);
     this.updateRoomInput = this.updateRoomInput.bind(this);
     this.requestRoom = this.requestRoom.bind(this);
+    this.openConfirmationModal = this.openConfirmationModal.bind(this);
   }
 
   componentDidMount() {
@@ -36,50 +37,53 @@ export default class App extends React.Component {
     if (this.state.nameRejected) {
       loginError = `${this.state.screenName} is already in use!`;
     }
-    if (!this.state.signedIn) {
-      overlay = (
-        <div className="overlay">
 
-          <div className="custom-modal">
-            <h5>Welcome to LibreKalah</h5>
-            <form onSubmit={this.sendName}>
-              <div className="row">
-                <div className="input-field custom col s12">
-                  <input id="screen-name" type="text" onChange={this.updateScreenName} value={this.state.screenName}/>
-                  <label htmlFor="screen-name">Screen Name</label>
+    if (this.state.modal) {
+      if (this.state.modal === 'login') {
+        overlay = (
+          <div className="overlay">
+
+            <div className="custom-modal">
+              <h5>Welcome to LibreKalah</h5>
+              <form onSubmit={this.sendName}>
+                <div className="row">
+                  <div className="input-field custom col s12">
+                    <input id="screen-name" type="text" onChange={this.updateScreenName} value={this.state.screenName} />
+                    <label htmlFor="screen-name">Screen Name</label>
+                  </div>
                 </div>
-              </div>
-              <h6 className="red-text-only">{loginError}</h6>
-              <div className="flex justify-content-center">
-                <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem" onClick={this.sendName}>Enter</a>
-              </div>
-            </form>
-          </div>
-
-        </div>
-      );
-    }
-
-    if (this.state.newRoomModal) {
-      overlay = (
-        <div className="overlay">
-          <div className="custom-modal">
-            <h5>Create a New Room</h5>
-            <form onSubmit={this.requestRoom}>
-              <div className="row">
-                <div className="input-field custom col s12">
-                  <input id="room-name" type="text" onChange={this.updateRoomInput} value={this.state.roomName}/>
-                  <label htmlFor="room-name">Room Name</label>
+                <h6 className="red-text-only">{loginError}</h6>
+                <div className="flex justify-content-center">
+                  <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem" onClick={this.sendName}>Enter</a>
                 </div>
-              </div>
-              <h6 className="red-text-only">{loginError}</h6>
-              <div className="flex justify-content-center">
-                <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem" onClick={this.requestRoom}>Enter</a>
-              </div>
-            </form>
+              </form>
+            </div>
+
           </div>
-        </div>
-      );
+        );
+      } else if (this.state.modal === 'new room') {
+        overlay = (
+          <div className="overlay">
+            <div className="custom-modal">
+              <h5>Create a New Room</h5>
+              <form onSubmit={this.requestRoom}>
+                <div className="row">
+                  <div className="input-field custom col s12">
+                    <input id="room-name" type="text" onChange={this.updateRoomInput} value={this.state.roomInput} />
+                    <label htmlFor="room-name">Room Name</label>
+                  </div>
+                </div>
+                <h6 className="red-text-only">{loginError}</h6>
+                <div className="flex justify-content-center">
+                  <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem" onClick={this.requestRoom}>Enter</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      } else if (this.state.modal === 'confirmation') {
+        overlay = <div className="overlay"></div>;
+      }
     }
 
     if (this.state.route.path === 'lobby') {
@@ -87,7 +91,7 @@ export default class App extends React.Component {
       const contextValue = { socket };
       view = (
         <AppContext.Provider value={contextValue}>
-          <Lobby rooms={this.state.rooms}/>
+          <Lobby rooms={this.state.rooms} openConfirmationModal={this.openConfirmationModal}/>
         </AppContext.Provider>
       );
     } else {
@@ -150,7 +154,7 @@ export default class App extends React.Component {
           });
           window.location.hash = '#lobby';
           this.setState(prevState => ({
-            signedIn: true,
+            modal: null,
             nameRejected: false,
             socket
           }));
@@ -168,7 +172,13 @@ export default class App extends React.Component {
 
   openNewRoomModal(event) {
     this.setState(prevState => ({
-      newRoomModal: true
+      modal: 'new room'
+    }));
+  }
+
+  openConfirmationModal(event) {
+    this.setState(prevState => ({
+      modal: 'confirmation'
     }));
   }
 
@@ -188,7 +198,8 @@ export default class App extends React.Component {
     })
       .then(() => {
         this.setState(prevState => ({
-          newRoomModal: false
+          modal: null,
+          roomInput: ''
         }));
       })
       .catch(err => console.error(err));
