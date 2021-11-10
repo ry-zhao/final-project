@@ -25,6 +25,10 @@ header {
   margin: 0;
 }
 
+.flex-direction-col {
+  flex-direction: column;
+}
+
 .margin-auto {
   margin: auto;
 }
@@ -71,6 +75,19 @@ header {
   box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
 }
 
+.confirmation-modal {
+  position: absolute;
+  height: 10rem;
+  width: 80%;
+  top: 15%;
+  left: 50%;
+  border: 2px solid #4fa5c1;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+}
+
 .room-card {
   border: 2px solid #4fa5c1;
 }
@@ -81,6 +98,15 @@ header {
 
 .absolute {
   position: absolute;
+}
+
+.padding-lr-1rem {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.margin-top-3p5rem {
+  margin-top: 3.5rem;
 }
 
 .margin-right-1rem {
@@ -100,8 +126,16 @@ header {
   justify-content: center;
 }
 
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.height-50-percent {
+  height: 50%;
 }
 
 .height-4rem {
@@ -185,6 +219,10 @@ header {
 @media screen and (min-width: 768px) {
   .custom-modal {
     max-width: 65rem;
+  }
+
+  .confirmation-modal {
+    max-width: 40rem;
   }
 
   .width-100-percent-dt {

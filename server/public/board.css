@@ -1,0 +1,6 @@
+.board {
+  display: flex;
+  justify-content: center;
+  background-color: #cccab9;
+  border-radius: 2rem;
+}

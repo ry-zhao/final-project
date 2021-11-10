@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppContext } from '../lib';
 
 export default class Lobby extends React.Component {
   render() {
@@ -12,14 +11,12 @@ export default class Lobby extends React.Component {
             </div>
             <div className="card-action text-align-right">
               <a className="waves-effect waves-light btn custom bg-columbia-blue margin-right-1rem" href="#lobby">View</a>
-              <a className="waves-effect waves-green btn custom bg-tea-green" href="#lobby" onClick={this.props.openConfirmationModal}>Join</a>
+              <a className="waves-effect waves-green btn custom bg-tea-green join-button" data-room-id={room.roomId} href="#lobby">Join</a>
             </div>
           </div>
         </div>
       </div>
     ));
-    return (<div className="room-container margin-auto width-50-percent-dt" >{rooms}</div>);
+    return (<div className="room-container margin-auto width-50-percent-dt" onClick={this.props.openConfirmationModal}>{rooms}</div>);
   }
 }
-
-Lobby.contextType = AppContext;
