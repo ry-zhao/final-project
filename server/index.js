@@ -59,14 +59,12 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
   } else {
     activeUsers[screenName].leave('lobby');
     activeUsers[screenName].join(activeRooms[roomId].roomName);
-    console.log(activeUsers[screenName].adapter.rooms);
     if (activeRooms[roomId].players === 0) {
       activeRooms[roomId].playerOne = screenName;
     } else {
       activeRooms[roomId].playerTwo = screenName;
     }
     activeRooms[roomId].players++;
-    console.log(activeRooms[roomId]);
     io.to('lobby').emit('room update', activeRooms);
     res.status(200).json({ roomId: roomId });
   }

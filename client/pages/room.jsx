@@ -36,6 +36,58 @@ export default class Room extends React.Component {
             <div className="store"></div>
           </div>
         </div>
+
+        <div className="board-dt">
+          <div className="store-col">
+            <div className="store-dt"></div>
+          </div>
+          <div className="pits-col">
+            <div className="board-row-dt">
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+
+            </div>
+            <div className="board-row-dt">
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+              <div className="pit-container-dt">
+                <div className="pit-dt"></div>
+              </div>
+            </div>
+          </div>
+          <div className="store-col">
+            <div className="store-dt"></div>
+          </div>
+        </div>
       </div>
     );
   }

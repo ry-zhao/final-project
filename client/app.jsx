@@ -264,11 +264,6 @@ export default class App extends React.Component {
       .catch(err => console.error(err));
   }
 
-  // getRoomName(roomId) {
-  //   const room = this.state.rooms.find(room => room.roomId === roomId);
-  //   return room.roomName;
-  // }
-
   getRoom(roomId) {
     const room = this.state.rooms.find(room => room.roomId === roomId);
     return room;
