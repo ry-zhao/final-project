@@ -1,0 +1,121 @@
+.board-container {
+  display: flex;
+
+  /* padding-top: 10%;
+  padding-bottom: 10%; */
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+  width: 70%;
+  justify-content: center;
+  border: solid 3px #4fa5c1;
+  background-color: #eae5dd;
+  border-radius: 2rem;
+  box-shadow:
+    0 2px 2px 0 rgb(0 0 0 / 14%),
+    0 3px 1px -2px rgb(0 0 0 / 12%),
+    0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.board-dt {
+  display: none;
+  width: 80%;
+  height: 50%;
+  border: solid 3px #4fa5c1;
+  background-color: #eae5dd;
+  border-radius: 2rem;
+  box-shadow:
+    0 2px 2px 0 rgb(0 0 0 / 14%),
+    0 3px 1px -2px rgb(0 0 0 / 12%),
+    0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.store-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc((1 / 8) * 100%);
+}
+
+.pits-col {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc((6 / 8) * 100%);
+}
+
+.store {
+  border-radius: 1rem;
+  height: 70%;
+  width: 70%;
+  border: solid 3px #4fa5c1;
+}
+
+.store-dt {
+  border-radius: 1rem;
+  height: 85%;
+  width: 80%;
+  max-width: 8rem;
+  border: solid 3px #4fa5c1;
+}
+
+.board-row {
+  display: flex;
+  justify-content: space-evenly;
+  height: calc((1 / 8) * 100%);
+  align-items: center;
+}
+
+.board-row-dt {
+  display: flex;
+  justify-content: space-evenly;
+  height: 50%;
+  width: 100%;
+  align-items: center;
+}
+
+.pit {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 2rem;
+  border: double 8px #4fa5c1;
+  background-image: url("images/pit.svg");
+  background-repeat: no-repeat;
+}
+
+.pit-container-dt {
+  width: calc((1 / 6) * 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pit-dt {
+  width: 80%;
+  border-radius: 3rem;
+  border: double 8px #4fa5c1;
+  background-image: url("images/pit.svg");
+  background-repeat: no-repeat;
+}
+
+.pit-dt::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .board {
+    display: none;
+  }
+
+  .board-dt {
+    display: flex;
+    background-color: #eae5dd;
+  }
+}

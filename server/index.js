@@ -32,7 +32,7 @@ db.query('select * from "gameRooms"')
 io.on('connection', socket => {
   socket.join('lobby');
   const { screenName } = socket.handshake.query;
-  activeUsers[screenName] = { socket };
+  activeUsers[screenName] = socket;
   socket.on('disconnect', socket => {
     delete activeUsers[screenName];
   });
@@ -49,6 +49,27 @@ app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
 });
 
+app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
+  let { roomId } = req.params;
+  const { screenName } = req.params;
+  roomId = Number(roomId);
+
+  if (activeRooms[roomId].players === 2) {
+    res.status(409).json({ error: 'Room is full.' });
+  } else {
+    activeUsers[screenName].leave('lobby');
+    activeUsers[screenName].join(activeRooms[roomId].roomName);
+    if (activeRooms[roomId].players === 0) {
+      activeRooms[roomId].playerOne = screenName;
+    } else {
+      activeRooms[roomId].playerTwo = screenName;
+    }
+    activeRooms[roomId].players++;
+    io.to('lobby').emit('room update', activeRooms);
+    res.status(200).json({ roomId: roomId });
+  }
+});
+
 app.post('/api/newroom', (req, res) => {
   const { roomName } = req.body;
   const sql = `
@@ -61,7 +82,7 @@ app.post('/api/newroom', (req, res) => {
     .then(result => {
       const newRoom = result.rows[0];
       activeRooms[newRoom.roomId] = newRoom;
-      io.emit('room update', activeRooms);
+      io.to('lobby').emit('room update', activeRooms);
       res.status(201).json(newRoom);
     })
     .catch(err => console.error(err));
