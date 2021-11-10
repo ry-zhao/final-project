@@ -105,6 +105,10 @@ header {
   padding-right: 1rem;
 }
 
+.margin-top-1p25rem {
+  margin-top: 1.25rem;
+}
+
 .margin-top-3p5rem {
   margin-top: 3.5rem;
 }
@@ -132,10 +136,6 @@ header {
 
 .flex-wrap {
   flex-wrap: wrap;
-}
-
-.height-50-percent {
-  height: 50%;
 }
 
 .height-4rem {

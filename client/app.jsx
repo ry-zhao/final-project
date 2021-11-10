@@ -119,14 +119,14 @@ export default class App extends React.Component {
       headerContent = (
         <div className="row bright-gray">
           <div className="col s4 center-align">
-            <h5>
+            <h6 className="margin-top-1p25rem">
               Player 1: {this.state.screenName}
-            </h5>
+            </h6>
           </div>
           <div className="col s4 center-align">
-            <h5>
+            <h6 className="margin-top-1p25rem">
               {this.getRoom(this.state.selectedRoom).roomName}
-            </h5>
+            </h6>
           </div>
           <div className="col s4 center-align">
             <h5>
