@@ -1,94 +1,61 @@
 import React from 'react';
+import Board from './board';
+import DesktopBoard from './desktop-board';
 
 export default class Room extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      socket: this.props.socket,
+      room: null
+    };
+  }
+
+  componentDidMount() {
+    const roomId = this.props.route.params.get('roomId');
+    const { socket } = this.state;
+
+    fetch(`api/joinroom/${roomId}/user/${this.props.screenName}`)
+      .then(response => {
+        if (response.status !== 200) {
+          window.location.hash = '#lobby';
+        }
+      })
+      .catch(err => console.error(err));
+
+    socket.on('room update', data => {
+      const rooms = data.filter(room => room !== null);
+      this.setState(prevState => ({
+        rooms
+      }));
+    });
+  }
+
   render() {
     return (
-      <div className="board-container">
-        <div className="board">
-          <div className="board-row">
-            <div className="store"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="pit"></div>
-            <div className="pit"></div>
-          </div>
-          <div className="board-row">
-            <div className="store"></div>
-          </div>
-        </div>
 
-        <div className="board-dt">
-          <div className="store-col">
-            <div className="store-dt"></div>
-          </div>
-          <div className="pits-col">
-            <div className="board-row-dt">
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-
+      <>
+      <header>
+          <nav>
+            <div className="nav-wrapper bg-columbia-blue">
+              {/* {headerContent} */}
             </div>
-            <div className="board-row-dt">
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
-              <div className="pit-container-dt">
-                <div className="pit-dt"></div>
-              </div>
+          </nav>
+        </header>
+        <main>
+          <div className="board-container">
+          <Board/>
+          <DesktopBoard/>
+          </div>
+      </main>
+        <footer className="page-footer height-4rem bg-columbia-blue">
+          <div className="container height-2p5rem">
+            <div className="row">
+              {/* {footerContent} */}
             </div>
           </div>
-          <div className="store-col">
-            <div className="store-dt"></div>
-          </div>
-        </div>
-      </div>
+        </footer>
+        </>
     );
   }
 }

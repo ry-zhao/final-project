@@ -252,7 +252,7 @@ export default class App extends React.Component {
     fetch(`api/joinroom/${this.state.selectedRoom}/user/${this.state.screenName}`)
       .then(response => {
         if (response.status === 200) {
-          window.location.hash = '#room';
+          window.location.hash = `#room?roomId=${this.state.selectedRoom.roomId}`;
           this.setState(prevState => ({
             modal: null,
             route: parseRoute(window.location.hash)

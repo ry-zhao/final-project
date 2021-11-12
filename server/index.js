@@ -73,7 +73,7 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
       activeRooms[roomId].playerTwo = screenName;
     }
     activeRooms[roomId].players++;
-    io.to('lobby').emit('room update', activeRooms);
+    io.to('lobby').emit('lobby update', activeRooms);
     res.status(200).json({ roomId: roomId });
   }
 });
@@ -90,7 +90,7 @@ app.post('/api/newroom', (req, res) => {
     .then(result => {
       const newRoom = result.rows[0];
       activeRooms[newRoom.roomId] = newRoom;
-      io.to('lobby').emit('room update', activeRooms);
+      io.to('lobby').emit('lobby update', activeRooms);
       res.status(201).json(newRoom);
     })
     .catch(err => console.error(err));

@@ -15,11 +15,12 @@ export default class Lobby extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.requestRoom = this.requestRoom.bind(this);
     this.getRoom = this.getRoom.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
   }
 
   componentDidMount() {
     const { socket } = this.props;
-    socket.on('room update', data => {
+    socket.on('lobby update', data => {
       const rooms = data.filter(room => room !== null);
       this.setState(prevState => ({
         rooms
@@ -34,7 +35,7 @@ export default class Lobby extends React.Component {
 
   componentWillUnmount() {
     const { socket } = this.props;
-    socket.off('room update');
+    socket.off('lobby update');
   }
 
   render() {
@@ -43,7 +44,7 @@ export default class Lobby extends React.Component {
     if (this.state.modal === 'new room') {
       modal = <NewRoomModal requestRoom={this.requestRoom}/>;
     } else if (this.state.modal === 'confirmation') {
-      modal = <ConfirmationModal selectedRoom={this.state.selectedRoom} closeModal={this.closeModal}/>;
+      modal = <ConfirmationModal selectedRoom={this.state.selectedRoom} closeModal={this.closeModal} joinRoom={this.joinRoom}/>;
     }
 
     const rooms = this.state.rooms.map(room => (
@@ -104,7 +105,10 @@ export default class Lobby extends React.Component {
   }
 
   closeModal(event) {
-    this.setState(prevState => ({ modal: null }));
+    this.setState(prevState => ({
+      modal: null,
+      selectedRoom: null
+    }));
   }
 
   requestRoom(roomName) {
@@ -123,5 +127,13 @@ export default class Lobby extends React.Component {
   getRoom(roomId) {
     const room = this.state.rooms.find(room => room.roomId === roomId);
     return room;
+  }
+
+  joinRoom(event) {
+    event.preventDefault();
+    window.location.hash = `#room?roomId=${this.state.selectedRoom.roomId}`;
+    this.setState(prevState => ({
+      modal: null
+    }));
   }
 }

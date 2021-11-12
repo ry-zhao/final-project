@@ -4,7 +4,7 @@ import LoginModal from './pages/login-modal';
 import Lobby from './pages/lobby';
 import Room from './pages/room';
 import { io } from 'socket.io-client';
-import { parseRoute, AppContext } from './lib';
+import { parseRoute } from './lib';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,15 +25,18 @@ export default class App extends React.Component {
   render() {
     let login;
     let view;
+    const { path } = this.state.route;
 
     if (!this.state.socket) {
       login = <LoginModal updateScreenName={this.updateScreenName}/>;
       view = <h1>Welcome</h1>;
-    } else if (!this.state.route.path) {
+    } else if (!path) {
       view = <Home />;
     } else {
-      if (this.state.route.path === 'lobby') {
-        view = <Lobby socket={this.state.socket}/>;
+      if (path === 'lobby') {
+        view = <Lobby socket={this.state.socket} screenName={this.state.screenName}/>;
+      } else if (path === 'room') {
+        view = <Room socket={this.state.socket} screenName={this.state.screenName} route={this.state.route}/>;
       }
     }
 
@@ -49,7 +52,7 @@ export default class App extends React.Component {
     const socket = io('', { query: { screenName } });
     window.location.hash = '#lobby';
     this.setState(prevState => ({
-      modal: null,
+      screenName,
       socket
     }));
   }
