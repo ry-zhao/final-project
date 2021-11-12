@@ -21,7 +21,7 @@ CREATE TABLE "public"."gameRooms" (
 	"pitValues" json NOT NULL DEFAULT '[[], [], [], [], [], [], [], [], [], [], [], []]',
   "players" integer NOT NULL DEFAULT 0,
   "activePlayer" integer NOT NULL DEFAULT 1,
-  "gameStarted" boolean NOT NULL DEFAULT false,
+  "gameStarted" boolean NOT NULL DEFAULT FALSE,
 	"playerOne" integer,
 	"playerTwo" integer,
 	CONSTRAINT "gameRooms_pk" PRIMARY KEY ("roomId")

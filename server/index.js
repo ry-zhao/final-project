@@ -49,6 +49,14 @@ app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
 });
 
+app.post('/api/turn/:pitNumber/room/:roomId', (req, res) => {
+  const { pitNumber, roomId } = req.params;
+  res.status(202).json({
+    pitNumber,
+    roomId
+  });
+});
+
 app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
   let { roomId } = req.params;
   const { screenName } = req.params;
