@@ -1,6 +1,6 @@
 import React from 'react';
-import NewRoomModal from './new-room-modal';
-import ConfirmationModal from './confirmation-modal';
+import NewRoomModal from '../components/new-room-modal';
+import ConfirmationModal from '../components/confirmation-modal';
 
 export default class Lobby extends React.Component {
   constructor(props) {

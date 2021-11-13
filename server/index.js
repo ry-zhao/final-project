@@ -45,6 +45,22 @@ app.get('/api/rooms', (req, res) => {
   res.status(200).json(activeRooms);
 });
 
+app.get('/api/start/roomId/:roomId', (req, res) => {
+  res.status(202).json({ it: 'worked' });
+  const { roomId } = req.params;
+  const positions = [];
+  for (let i = 0; i < 12; i++) {
+    const pit = [];
+    for (let j = 0; j < 4; j++) {
+      const x = Math.random();
+      const y = Math.random();
+      pit.push({ x, y });
+    }
+    positions.push(pit);
+  }
+  io.to(activeRooms[roomId].roomName).emit('room update', positions);
+});
+
 app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
 });

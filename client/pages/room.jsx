@@ -1,6 +1,6 @@
 import React from 'react';
-import Board from './board';
-import DesktopBoard from './desktop-board';
+import Board from '../components/board';
+import DesktopBoard from '../components/desktop-board';
 
 export default class Room extends React.Component {
   constructor(props) {
@@ -24,11 +24,13 @@ export default class Room extends React.Component {
       .catch(err => console.error(err));
 
     socket.on('room update', data => {
-      const rooms = data.filter(room => room !== null);
-      this.setState(prevState => ({
-        rooms
-      }));
+      console.log(data);
     });
+  }
+
+  componentWillUnmount() {
+    const { socket } = this.state;
+    socket.off('room update');
   }
 
   render() {

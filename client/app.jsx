@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from './pages/home';
-import LoginModal from './pages/login-modal';
+import LoginModal from './components/login-modal';
 import Lobby from './pages/lobby';
 import Room from './pages/room';
 import { io } from 'socket.io-client';
@@ -29,7 +29,7 @@ export default class App extends React.Component {
 
     if (!this.state.socket) {
       login = <LoginModal updateScreenName={this.updateScreenName}/>;
-      view = <h1>Welcome</h1>;
+      view = <Home />;
     } else if (!path) {
       view = <Home />;
     } else {
