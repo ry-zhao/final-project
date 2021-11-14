@@ -18,6 +18,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+function getRandomColor() {
+  let color = (Math.floor(Math.random() * 16777215)).toString(16);
+  while (color.length !== 6) {
+    color = 0 + color;
+  }
+  return color;
+}
+
 const activeUsers = {};
 const activeRooms = [];
 
@@ -73,11 +81,36 @@ app.get('/api/test', (req, res) => {
 });
 
 app.post('/api/turn/:pitNumber/room/:roomId', (req, res) => {
-  const { pitNumber, roomId } = req.params;
+  const { roomId } = req.params;
+  let { pitNumber } = req.params;
+  pitNumber = Number(pitNumber);
   res.status(202).json({
     pitNumber,
     roomId
   });
+  const moved = activeRooms[roomId].pitValues[pitNumber].pop();
+  moved.x = Math.random();
+  moved.y = Math.random();
+  activeRooms[roomId].pitValues[pitNumber + 1].push(moved);
+  console.log(activeRooms[roomId].pitValues);
+  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
+});
+
+app.post('/api/turn/origin/:origin/destination/:destination/room/:roomId', (req, res) => {
+  const { roomId } = req.params;
+  let { origin, destination } = req.params;
+  origin = Number(origin);
+  destination = Number(destination);
+  res.status(202).json({
+    origin,
+    roomId
+  });
+  const moved = activeRooms[roomId].pitValues[origin].pop();
+  moved.x = Math.random();
+  moved.y = Math.random();
+  activeRooms[roomId].pitValues[destination].push(moved);
+  console.log(activeRooms[roomId].pitValues);
+  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
 });
 
 app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
@@ -94,6 +127,25 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
       activeRooms[roomId].playerOne = screenName;
     } else {
       activeRooms[roomId].playerTwo = screenName;
+      const positions = [];
+      let k = 0;
+      for (let i = 0; i < 14; i++) {
+        const pit = [];
+        if (i === 6 || i === 13) {
+          positions.push(pit);
+        } else {
+          for (let j = 0; j < 4; j++) {
+            const x = Math.random();
+            const y = Math.random();
+            const gradient = [getRandomColor(), getRandomColor()];
+            const key = k++;
+            pit.push({ x, y, key, gradient });
+          }
+          positions.push(pit);
+        }
+      }
+      activeRooms[roomId].pitValues = positions;
+      io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
     }
     activeRooms[roomId].players++;
     io.to('lobby').emit('lobby update', activeRooms);
