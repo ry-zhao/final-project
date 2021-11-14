@@ -49,16 +49,23 @@ app.get('/api/start/roomId/:roomId', (req, res) => {
   res.status(202).json({ it: 'worked' });
   const { roomId } = req.params;
   const positions = [];
-  for (let i = 0; i < 12; i++) {
+  let k = 0;
+  for (let i = 0; i < 14; i++) {
     const pit = [];
-    for (let j = 0; j < 4; j++) {
-      const x = Math.random();
-      const y = Math.random();
-      pit.push({ x, y });
+    if (i === 6 || i === 13) {
+      positions.push(pit);
+    } else {
+      for (let j = 0; j < 4; j++) {
+        const x = Math.random();
+        const y = Math.random();
+        const key = k++;
+        pit.push({ x, y, key });
+      }
+      positions.push(pit);
     }
-    positions.push(pit);
   }
-  io.to(activeRooms[roomId].roomName).emit('room update', positions);
+  activeRooms[roomId].pitValues = positions;
+  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
 });
 
 app.get('/api/test', (req, res) => {
@@ -90,7 +97,7 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
     }
     activeRooms[roomId].players++;
     io.to('lobby').emit('lobby update', activeRooms);
-    res.status(200).json({ roomId: roomId });
+    res.status(200).json(activeRooms[roomId]);
   }
 });
 

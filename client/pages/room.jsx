@@ -19,12 +19,16 @@ export default class Room extends React.Component {
       .then(response => {
         if (response.status !== 200) {
           window.location.hash = '#lobby';
+          return;
         }
+        response.json()
+          .then(room => this.setState(prevState => ({ room })))
+          .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
 
-    socket.on('room update', data => {
-      console.log(data);
+    socket.on('room update', room => {
+      this.setState(prevState => ({ room }));
     });
   }
 
@@ -34,19 +38,36 @@ export default class Room extends React.Component {
   }
 
   render() {
-    return (
+    const { room } = this.state;
 
+    return (
       <>
       <header>
           <nav>
             <div className="nav-wrapper bg-columbia-blue">
-              {/* {headerContent} */}
+              <div className="row bright-gray">
+                <div className="col s4 center-align">
+                  <h6 className="margin-top-1p25rem">
+                    Player 1
+                  </h6>
+                </div>
+                <div className="col s4 center-align">
+                  <h6 className="margin-top-1p25rem">
+                    {this.getRoomName()}
+                  </h6>
+                </div>
+                <div className="col s4 center-align">
+                  <h5>
+                    0 - 0
+                  </h5>
+                </div>
+              </div>
             </div>
           </nav>
         </header>
-        <main>
+        <main className="bg-light-gray">
           <div className="board-container">
-          <Board/>
+          <Board room={room}/>
           <DesktopBoard/>
           </div>
       </main>
@@ -59,5 +80,13 @@ export default class Room extends React.Component {
         </footer>
         </>
     );
+  }
+
+  getRoomName() {
+    if (!this.state.room) {
+      return 'Room';
+    } else {
+      return this.state.room.roomName;
+    }
   }
 }

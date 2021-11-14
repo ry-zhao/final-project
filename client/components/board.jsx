@@ -1,46 +1,56 @@
 import React from 'react';
 import Pit from './pit';
+import Store from './store';
+import Piece from './piece';
 
 export default class Board extends React.Component {
   render() {
     const pits = [];
-    for (let i = 0; i < 12; i++) {
-      const piece = <div>hi</div>;
-      const pit = <Pit piece={piece} pitNum={i}/>;
-      pits.push(pit);
+    const { room } = this.props;
+    if (room) {
+      const pieces = room.pitValues.map(pit => pit.map(piece => <Piece key={piece.key} />));
+      for (let i = 0; i < 14; i++) {
+        let pit;
+        if (i === 6 || i === 13) {
+          pit = <Store pieces={pieces[i]} pitNum = {i} />;
+        } else {
+          pit = <Pit pieces={pieces[i]} pitNum={i} />;
+        }
+        pits.push(pit);
+      }
     }
 
     return (
       <div className="board">
         <div className="board-row">
-          <div className="store"></div>
-        </div>
-        <div className="board-row">
           {pits[6]}
-          {pits[5]}
         </div>
         <div className="board-row">
           {pits[7]}
-          {pits[4]}
+          {pits[5]}
         </div>
         <div className="board-row">
           {pits[8]}
-          {pits[3]}
+          {pits[4]}
         </div>
         <div className="board-row">
           {pits[9]}
-          {pits[2]}
+          {pits[3]}
         </div>
         <div className="board-row">
           {pits[10]}
-          {pits[1]}
+          {pits[2]}
         </div>
         <div className="board-row">
           {pits[11]}
+          {pits[1]}
+        </div>
+        <div className="board-row">
+          {pits[12]}
           {pits[0]}
         </div>
         <div className="board-row">
-          <div className="store"></div>
+          {pits[13]}
         </div>
       </div>
     );
