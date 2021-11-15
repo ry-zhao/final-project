@@ -17,7 +17,6 @@ CREATE TABLE "public"."users" (
 CREATE TABLE "public"."gameRooms" (
 	"roomId" serial NOT NULL,
 	"roomName" TEXT NOT NULL,
-	"storeValues" json NOT NULL DEFAULT '[[], []]',
 	"pitValues" json NOT NULL DEFAULT '[[], [], [], [], [], [], [], [], [], [], [], []]',
   "players" integer NOT NULL DEFAULT 0,
   "activePlayer" integer NOT NULL DEFAULT 1,

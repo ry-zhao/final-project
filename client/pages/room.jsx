@@ -48,7 +48,7 @@ export default class Room extends React.Component {
               <div className="row bright-gray">
                 <div className="col s4 center-align">
                   <h6 className="margin-top-1p25rem">
-                    Player 1
+                    {this.getPlayer()}
                   </h6>
                 </div>
                 <div className="col s4 center-align">
@@ -57,9 +57,9 @@ export default class Room extends React.Component {
                   </h6>
                 </div>
                 <div className="col s4 center-align">
-                  <h5>
-                    0 - 0
-                  </h5>
+                  <h6>
+                    {this.getScore()}
+                  </h6>
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@ export default class Room extends React.Component {
         </header>
         <main className="bg-light-gray">
           <div className="board-container">
-          <Board room={room}/>
+          <Board room={room} socket={this.props.socket}/>
           <DesktopBoard/>
           </div>
       </main>
@@ -87,6 +87,26 @@ export default class Room extends React.Component {
       return 'Room';
     } else {
       return this.state.room.roomName;
+    }
+  }
+
+  getPlayer() {
+    if (!this.state.room) {
+      return '';
+    } else {
+      if (this.state.room.activePlayer === 1) {
+        return `Player 1: ${this.state.room.playerOne}`;
+      } else {
+        return `Player 2: ${this.state.room.playerTwo}`;
+      }
+    }
+  }
+
+  getScore() {
+    if (!this.state.room) {
+      return '';
+    } else if (this.state.room.gameStarted) {
+      return `${this.state.room.pitValues[6].length} - ${this.state.room.pitValues[13].length}`;
     }
   }
 }

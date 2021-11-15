@@ -19,7 +19,7 @@ export default class LoginModal extends React.Component {
     return (
       <div className="overlay">
         <div className="custom-modal">
-          <h5>Welcome to LibreKalah</h5>
+          <h5>Welcome to Kalah.io</h5>
           <form onSubmit={this.sendName}>
             <div className="row">
               <div className="input-field custom col s12">

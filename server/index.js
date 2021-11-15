@@ -26,6 +26,8 @@ function getRandomColor() {
   return color;
 }
 
+const oppositePits = [12, 11, 10, 9, 8, 7, null, 5, 4, 3, 2, 1, 0];
+
 const activeUsers = {};
 const activeRooms = [];
 
@@ -80,36 +82,39 @@ app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
 });
 
-app.post('/api/turn/:pitNumber/room/:roomId', (req, res) => {
+app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
+  res.status(202).send();
   const { roomId } = req.params;
-  let { pitNumber } = req.params;
-  pitNumber = Number(pitNumber);
-  res.status(202).json({
-    pitNumber,
-    roomId
-  });
-  const moved = activeRooms[roomId].pitValues[pitNumber].pop();
-  moved.x = Math.random();
-  moved.y = Math.random();
-  activeRooms[roomId].pitValues[pitNumber + 1].push(moved);
-  console.log(activeRooms[roomId].pitValues);
-  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
-});
-
-app.post('/api/turn/origin/:origin/destination/:destination/room/:roomId', (req, res) => {
-  const { roomId } = req.params;
-  let { origin, destination } = req.params;
-  origin = Number(origin);
-  destination = Number(destination);
-  res.status(202).json({
-    origin,
-    roomId
-  });
-  const moved = activeRooms[roomId].pitValues[origin].pop();
-  moved.x = Math.random();
-  moved.y = Math.random();
-  activeRooms[roomId].pitValues[destination].push(moved);
-  console.log(activeRooms[roomId].pitValues);
+  let { currentPit } = req.params;
+  currentPit = Number(currentPit);
+  let destination = currentPit + 1;
+  if (activeRooms[roomId].pitValues[currentPit].length === 0) {
+    return;
+  }
+  while (activeRooms[roomId].pitValues[currentPit].length !== 0) {
+    const moved = activeRooms[roomId].pitValues[currentPit].pop();
+    moved.x = Math.random();
+    moved.y = Math.random();
+    destination++;
+    if (destination > 13) {
+      destination = 0;
+    }
+    if (activeRooms[roomId].activePlayer === 1) {
+      if (destination === 13) {
+        destination = 0;
+      }
+    } else {
+      if (destination === 6) {
+        destination = 7;
+      }
+    }
+    activeRooms[roomId].pitValues[destination].push(moved);
+  }
+  if (activeRooms[roomId].activePlayer === 1) {
+    activeRooms[roomId].activePlayer = 2;
+  } else {
+    activeRooms[roomId].activePlayer = 1;
+  }
   io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
 });
 
@@ -145,6 +150,8 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
         }
       }
       activeRooms[roomId].pitValues = positions;
+      activeRooms[roomId].gameStarted = true;
+      console.log(activeRooms[roomId]);
       io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
     }
     activeRooms[roomId].players++;
