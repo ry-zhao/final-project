@@ -44,7 +44,7 @@ export default class LoginModal extends React.Component {
 
   sendName(event) {
     event.preventDefault();
-    fetch('api/entername', {
+    fetch('/api/entername', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ screenName: this.state.screenNameInput })

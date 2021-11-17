@@ -7,7 +7,7 @@ const { Server } = require('socket.io');
 const pg = require('pg');
 
 const db = new pg.Pool({
-  connectionString: 'postgress://dev:dev@localhost/libreKalah',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }

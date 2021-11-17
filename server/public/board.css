@@ -86,7 +86,7 @@
   position: relative;
   border-radius: 2rem;
   border: double 8px #4fa5c1;
-  background-image: url("images/pit.svg");
+  background-image: url("/images/pit.svg");
   background-repeat: no-repeat;
 }
 
@@ -110,7 +110,7 @@
   width: 80%;
   border-radius: 3rem;
   border: double 8px #4fa5c1;
-  background-image: url("images/pit.svg");
+  background-image: url("/images/pit.svg");
   background-repeat: no-repeat;
 }
 
