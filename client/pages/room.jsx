@@ -57,7 +57,7 @@ export default class Room extends React.Component {
                   </h6>
                 </div>
                 <div className="col s4 center-align">
-                  <h6>
+                  <h6 className="margin-top-1p25rem">
                     {this.getScore()}
                   </h6>
                 </div>

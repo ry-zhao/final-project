@@ -87,7 +87,7 @@ app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
   const { roomId } = req.params;
   let { currentPit } = req.params;
   currentPit = Number(currentPit);
-  let destination = currentPit + 1;
+  let destination = currentPit;
   if (activeRooms[roomId].pitValues[currentPit].length === 0) {
     return;
   }
@@ -111,9 +111,13 @@ app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
     activeRooms[roomId].pitValues[destination].push(moved);
   }
   if (activeRooms[roomId].activePlayer === 1) {
-    activeRooms[roomId].activePlayer = 2;
+    if (destination !== 6) {
+      activeRooms[roomId].activePlayer = 2;
+    }
   } else {
-    activeRooms[roomId].activePlayer = 1;
+    if (destination !== 13) {
+      activeRooms[roomId].activePlayer = 1;
+    }
   }
   io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
 });
