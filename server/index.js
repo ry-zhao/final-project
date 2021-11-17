@@ -18,6 +18,16 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+function getRandomColor() {
+  let color = (Math.floor(Math.random() * 16777215)).toString(16);
+  while (color.length !== 6) {
+    color = 0 + color;
+  }
+  return color;
+}
+
+const oppositePits = [12, 11, 10, 9, 8, 7, null, 5, 4, 3, 2, 1, 0];
+
 const activeUsers = {};
 const activeRooms = [];
 
@@ -45,8 +55,71 @@ app.get('/api/rooms', (req, res) => {
   res.status(200).json(activeRooms);
 });
 
+app.get('/api/start/roomId/:roomId', (req, res) => {
+  res.status(202).json({ it: 'worked' });
+  const { roomId } = req.params;
+  const positions = [];
+  let k = 0;
+  for (let i = 0; i < 14; i++) {
+    const pit = [];
+    if (i === 6 || i === 13) {
+      positions.push(pit);
+    } else {
+      for (let j = 0; j < 4; j++) {
+        const x = Math.random();
+        const y = Math.random();
+        const key = k++;
+        pit.push({ x, y, key });
+      }
+      positions.push(pit);
+    }
+  }
+  activeRooms[roomId].pitValues = positions;
+  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
+});
+
 app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
+});
+
+app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
+  res.status(202).send();
+  const { roomId } = req.params;
+  let { currentPit } = req.params;
+  currentPit = Number(currentPit);
+  let destination = currentPit;
+  if (activeRooms[roomId].pitValues[currentPit].length === 0) {
+    return;
+  }
+  while (activeRooms[roomId].pitValues[currentPit].length !== 0) {
+    const moved = activeRooms[roomId].pitValues[currentPit].pop();
+    moved.x = Math.random();
+    moved.y = Math.random();
+    destination++;
+    if (destination > 13) {
+      destination = 0;
+    }
+    if (activeRooms[roomId].activePlayer === 1) {
+      if (destination === 13) {
+        destination = 0;
+      }
+    } else {
+      if (destination === 6) {
+        destination = 7;
+      }
+    }
+    activeRooms[roomId].pitValues[destination].push(moved);
+  }
+  if (activeRooms[roomId].activePlayer === 1) {
+    if (destination !== 6) {
+      activeRooms[roomId].activePlayer = 2;
+    }
+  } else {
+    if (destination !== 13) {
+      activeRooms[roomId].activePlayer = 1;
+    }
+  }
+  io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
 });
 
 app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
@@ -63,10 +136,31 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
       activeRooms[roomId].playerOne = screenName;
     } else {
       activeRooms[roomId].playerTwo = screenName;
+      const positions = [];
+      let k = 0;
+      for (let i = 0; i < 14; i++) {
+        const pit = [];
+        if (i === 6 || i === 13) {
+          positions.push(pit);
+        } else {
+          for (let j = 0; j < 4; j++) {
+            const x = Math.random();
+            const y = Math.random();
+            const gradient = [getRandomColor(), getRandomColor()];
+            const key = k++;
+            pit.push({ x, y, key, gradient });
+          }
+          positions.push(pit);
+        }
+      }
+      activeRooms[roomId].pitValues = positions;
+      activeRooms[roomId].gameStarted = true;
+      console.log(activeRooms[roomId]);
+      io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
     }
     activeRooms[roomId].players++;
-    io.to('lobby').emit('room update', activeRooms);
-    res.status(200).json({ roomId: roomId });
+    io.to('lobby').emit('lobby update', activeRooms);
+    res.status(200).json(activeRooms[roomId]);
   }
 });
 
@@ -82,7 +176,7 @@ app.post('/api/newroom', (req, res) => {
     .then(result => {
       const newRoom = result.rows[0];
       activeRooms[newRoom.roomId] = newRoom;
-      io.to('lobby').emit('room update', activeRooms);
+      io.to('lobby').emit('lobby update', activeRooms);
       res.status(201).json(newRoom);
     })
     .catch(err => console.error(err));

@@ -1,3 +1,3 @@
-insert into "gameRooms" ("roomName")
-  values ('LFZ Kalah'),
-         ('Kalahari Challenge');
+-- insert into "gameRooms" ("roomName")
+--   values ('LFZ Kalah'),
+--          ('Kalahari Challenge');

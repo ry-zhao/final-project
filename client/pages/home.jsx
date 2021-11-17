@@ -3,7 +3,22 @@ import React from 'react';
 export default function Home(props) {
   return (
     <>
-      <h2 className="bright-gray">Hello, mancala enthusiast!</h2>
+      <header>
+        <nav>
+          <div className="nav-wrapper bg-columbia-blue">
+          </div>
+        </nav>
+      </header>
+      <main>
+
+      </main>
+      <footer className="page-footer height-4rem bg-columbia-blue">
+        <div className="container height-2p5rem">
+          <div className="row">
+
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
