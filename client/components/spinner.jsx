@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default class Spinner extends React.component {
+export default class Spinner extends React.Component {
   render() {
-    return <div className="lds-ring"><div></div><div></div><div></div><div></div></div>;
+    return < div className="lds-circle" > <div></div></div >;
   }
 }

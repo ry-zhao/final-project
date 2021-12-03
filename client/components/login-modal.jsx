@@ -1,11 +1,13 @@
 import React from 'react';
+import Spinner from './spinner';
 
 export default class LoginModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       screenNameInput: '',
-      screenNameRejected: false
+      screenNameRejected: false,
+      waiting: false
     };
     this.updateScreenNameInput = this.updateScreenNameInput.bind(this);
     this.sendName = this.sendName.bind(this);
@@ -13,6 +15,10 @@ export default class LoginModal extends React.Component {
 
   render() {
     let loginError;
+    let spinner;
+    if (this.state.waiting) {
+      spinner = <Spinner />;
+    }
     if (this.state.screenNameRejected) {
       loginError = `${this.state.screenNameInput} is already in use!`;
     }
@@ -27,6 +33,7 @@ export default class LoginModal extends React.Component {
                 <label htmlFor="screen-name">Screen Name</label>
               </div>
             </div>
+            <h6 className="relative bottom-1rem">{spinner}</h6>
             <h6 className="red-text-only">{loginError}</h6>
             <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem" onClick={this.sendName}>Enter</a>
           </form>
@@ -44,6 +51,7 @@ export default class LoginModal extends React.Component {
 
   sendName(event) {
     event.preventDefault();
+    this.setState(prevState => ({ waiting: true }));
     fetch('/api/entername', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -53,7 +61,10 @@ export default class LoginModal extends React.Component {
         if (result.status === 200) {
           this.props.updateScreenName(this.state.screenNameInput);
         } else {
-          this.setState(prevState => ({ screenNameRejected: true }));
+          this.setState(prevState => ({
+            waiting: false,
+            screenNameRejected: true
+          }));
         }
       })
       .catch(err => console.error(err));
