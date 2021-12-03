@@ -88,6 +88,7 @@
   border: double 8px #4fa5c1;
   background-image: url("/images/pit.svg");
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .piece {
@@ -112,6 +113,7 @@
   border: double 8px #4fa5c1;
   background-image: url("/images/pit.svg");
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .pit-dt::after {
