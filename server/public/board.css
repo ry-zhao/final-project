@@ -11,6 +11,9 @@
 .board {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  min-height: 600px;
   height: 95%;
   width: 70%;
   justify-content: center;
@@ -130,5 +133,12 @@
   .board-dt {
     display: flex;
     background-color: #eae5dd;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .pit {
+    height: 3rem;
+    width: 3rem;
   }
 }
