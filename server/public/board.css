@@ -125,7 +125,7 @@
   padding-bottom: 100%;
 }
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   .board {
     display: none;
   }
@@ -134,7 +134,7 @@
     display: flex;
     background-color: #eae5dd;
   }
-}
+} */
 
 @media screen and (max-width: 280px) {
   .pit {
