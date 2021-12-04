@@ -147,7 +147,10 @@ export default class Lobby extends React.Component {
       .then(() => {
         this.closeModal();
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.setState(prevState => ({ error: true }));
+      });
   }
 
   getRoom(roomId) {
