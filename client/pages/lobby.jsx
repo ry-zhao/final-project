@@ -1,6 +1,7 @@
 import React from 'react';
 import NewRoomModal from '../components/new-room-modal';
 import ConfirmationModal from '../components/confirmation-modal';
+import ErrorModal from '../components/error-modal';
 import Spinner from '../components/spinner';
 
 export default class Lobby extends React.Component {
@@ -9,6 +10,7 @@ export default class Lobby extends React.Component {
     this.state = {
       modal: null,
       waiting: false,
+      error: false,
       rooms: [],
       selectedRoom: null
     };
@@ -35,7 +37,13 @@ export default class Lobby extends React.Component {
         waiting: false,
         rooms
       })))
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.setState(prevState => ({
+          waiting: false,
+          error: true
+        }));
+      });
     this.setState(prevState => ({ waiting: true }));
   }
 
@@ -56,6 +64,10 @@ export default class Lobby extends React.Component {
       modal = <NewRoomModal requestRoom={this.requestRoom}/>;
     } else if (this.state.modal === 'confirmation') {
       modal = <ConfirmationModal selectedRoom={this.state.selectedRoom} closeModal={this.closeModal} joinRoom={this.joinRoom}/>;
+    }
+
+    if (this.state.error) {
+      modal = <ErrorModal/>;
     }
 
     const rooms = this.state.rooms.map(room => (
