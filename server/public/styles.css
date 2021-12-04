@@ -100,6 +100,10 @@ header {
   position: absolute;
 }
 
+.relative {
+  position: relative;
+}
+
 .padding-lr-1rem {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -214,6 +218,57 @@ header {
 
 .btn.custom.bg-columbia-blue:focus {
   background-color: #c0d8e0;
+}
+
+button,
+i.edit-icon,
+i.delete-icon {
+  cursor: pointer;
+}
+
+.lds-circle {
+  display: inline-block;
+  transform: translateZ(1px);
+}
+
+.lds-circle > div {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border-radius: 50%;
+  background: #cef;
+  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes lds-circle {
+  0%,
+  100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (min-width: 768px) {
