@@ -33,6 +33,10 @@ header {
   margin: auto;
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 .text-align-right {
   text-align: right;
 }
@@ -90,6 +94,12 @@ header {
 
 .room-card {
   border: 2px solid #4fa5c1;
+}
+
+.room-spinner {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 
 .flex {

@@ -1,13 +1,15 @@
 import React from 'react';
 import Board from '../components/board';
-import DesktopBoard from '../components/desktop-board';
+import Spinner from '../components/spinner';
 
 export default class Room extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       socket: this.props.socket,
-      room: null
+      room: null,
+      waiting: true,
+      error: false
     };
   }
 
@@ -22,7 +24,10 @@ export default class Room extends React.Component {
           return;
         }
         response.json()
-          .then(room => this.setState(prevState => ({ room })))
+          .then(room => this.setState(prevState => ({
+            waiting: false,
+            room
+          })))
           .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
@@ -39,6 +44,11 @@ export default class Room extends React.Component {
 
   render() {
     const { room } = this.state;
+    let spinner;
+
+    if (this.state.waiting) {
+      spinner = <div className="room-spinner"><Spinner/></div>;
+    }
 
     return (
       <>
@@ -67,8 +77,8 @@ export default class Room extends React.Component {
         </header>
         <main className="bg-light-gray">
           <div className="board-container">
+          {spinner}
           <Board room={room} socket={this.props.socket}/>
-          <DesktopBoard/>
           </div>
       </main>
         <footer className="page-footer height-4rem bg-columbia-blue">

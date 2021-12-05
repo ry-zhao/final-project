@@ -1,12 +1,16 @@
 import React from 'react';
 import NewRoomModal from '../components/new-room-modal';
 import ConfirmationModal from '../components/confirmation-modal';
+import ErrorModal from '../components/error-modal';
+import Spinner from '../components/spinner';
 
 export default class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: null,
+      waiting: false,
+      error: false,
       rooms: [],
       selectedRoom: null
     };
@@ -29,8 +33,18 @@ export default class Lobby extends React.Component {
     fetch('/api/rooms')
       .then(result => result.json())
       .then(rooms => rooms.filter(room => room !== null))
-      .then(rooms => this.setState(prevState => ({ rooms })))
-      .catch(err => console.error(err));
+      .then(rooms => this.setState(prevState => ({
+        waiting: false,
+        rooms
+      })))
+      .catch(err => {
+        console.error(err);
+        this.setState(prevState => ({
+          waiting: false,
+          error: true
+        }));
+      });
+    this.setState(prevState => ({ waiting: true }));
   }
 
   componentWillUnmount() {
@@ -40,11 +54,20 @@ export default class Lobby extends React.Component {
 
   render() {
     let modal;
+    let spinner;
+
+    if (this.state.waiting) {
+      spinner = <div className="text-align-center"> <Spinner /> </div>;
+    }
 
     if (this.state.modal === 'new room') {
       modal = <NewRoomModal requestRoom={this.requestRoom}/>;
     } else if (this.state.modal === 'confirmation') {
       modal = <ConfirmationModal selectedRoom={this.state.selectedRoom} closeModal={this.closeModal} joinRoom={this.joinRoom}/>;
+    }
+
+    if (this.state.error) {
+      modal = <ErrorModal/>;
     }
 
     const rooms = this.state.rooms.map(room => (
@@ -75,7 +98,10 @@ export default class Lobby extends React.Component {
         </header>
 
         <main>
-          <div className="room-container margin-auto width-50-percent-dt" onClick={this.openConfirmationModal}>{rooms}</div>
+          <div className="room-container margin-auto width-50-percent-dt" onClick={this.openConfirmationModal}>
+            {spinner}
+            {rooms}
+          </div>
         </main>
 
         <footer className="page-footer height-4rem bg-columbia-blue">
@@ -121,7 +147,10 @@ export default class Lobby extends React.Component {
       .then(() => {
         this.closeModal();
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.setState(prevState => ({ error: true }));
+      });
   }
 
   getRoom(roomId) {

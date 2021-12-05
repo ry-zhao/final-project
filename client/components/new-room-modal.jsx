@@ -1,15 +1,21 @@
 import React from 'react';
+import Spinner from './spinner';
 
 export default class NewRoomModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomInput: ''
+      roomInput: '',
+      waiting: false
     };
     this.updateRoomInput = this.updateRoomInput.bind(this);
   }
 
   render() {
+    let spinner;
+    if (this.state.waiting) {
+      spinner = <Spinner />;
+    }
     return (
       <div className="overlay">
         <div className="custom-modal">
@@ -22,8 +28,9 @@ export default class NewRoomModal extends React.Component {
               </div>
             </div>
             <div className="flex justify-content-center">
+              <h6 className="relative bottom-1rem">{spinner}</h6>
               <a className="waves-effect waves-green btn custom bg-tea-green absolute center bottom-1rem"
-              onClick={() => this.props.requestRoom(this.state.roomInput)}>
+                onClick={() => { this.setState(prevState => ({ waiting: true })); this.props.requestRoom(this.state.roomInput); }}>
                 Enter
               </a>
             </div>
