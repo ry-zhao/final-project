@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from '../components/board';
 import Spinner from '../components/spinner';
+import ErrorModal from '../components/error-modal';
 
 export default class Room extends React.Component {
   constructor(props) {
@@ -11,6 +12,8 @@ export default class Room extends React.Component {
       waiting: true,
       error: false
     };
+    this.updateWaiting = this.updateWaiting.bind(this);
+    this.updateError = this.updateError.bind(this);
   }
 
   componentDidMount() {
@@ -28,9 +31,15 @@ export default class Room extends React.Component {
             waiting: false,
             room
           })))
-          .catch(err => console.error(err));
+          .catch(err => {
+            console.error(err);
+            this.setState(prevState => ({ error: true }));
+          });
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.setState(prevState => ({ error: true }));
+      });
 
     socket.on('room update', room => {
       this.setState(prevState => ({ room }));
@@ -45,9 +54,14 @@ export default class Room extends React.Component {
   render() {
     const { room } = this.state;
     let spinner;
+    let modal;
 
     if (this.state.waiting) {
       spinner = <div className="room-spinner"><Spinner/></div>;
+    }
+
+    if (this.state.error) {
+      modal = <ErrorModal/>;
     }
 
     return (
@@ -77,8 +91,10 @@ export default class Room extends React.Component {
         </header>
         <main className="bg-light-gray">
           <div className="board-container">
+          {modal}
           {spinner}
-          <Board room={room} socket={this.props.socket}/>
+          <Board room={room} socket={this.props.socket} updateWaiting={this.updateWaiting}
+          updateError={this.updateError}/>
           </div>
       </main>
         <footer className="page-footer height-4rem bg-columbia-blue">
@@ -118,5 +134,13 @@ export default class Room extends React.Component {
     } else if (this.state.room.gameStarted) {
       return `${this.state.room.pitValues[6].length} - ${this.state.room.pitValues[13].length}`;
     }
+  }
+
+  updateWaiting(waiting) {
+    this.setState(prevState => ({ waiting }));
+  }
+
+  updateError() {
+    this.setState(prevState => ({ error: true }));
   }
 }
