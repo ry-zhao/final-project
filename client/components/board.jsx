@@ -11,7 +11,7 @@ export default class Board extends React.Component {
       currentPit: null,
       destination: null
     };
-    this.sendMove = this.sendMove.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class Board extends React.Component {
     }
 
     return (
-      <div className="board" onClick={this.sendMove}>
+      <div className="board" onClick={this.handleClick}>
         <div className="board-row">
           {pits[6]}
         </div>
@@ -67,7 +67,7 @@ export default class Board extends React.Component {
     );
   }
 
-  sendMove(event) {
+  handleClick(event) {
     if (event.target.className !== 'pit' || event.target.childElementCount === 0) {
       return;
     }
@@ -78,6 +78,11 @@ export default class Board extends React.Component {
       `/api/turn/currentPit/${currentPit}/roomId/${roomId}`,
       { method: 'POST' }
     )
-      .catch(err => console.error(err));
+      .then(res => { this.props.updateWaiting(false); })
+      .catch(err => {
+        console.error(err);
+        this.props.updateError();
+      });
+    this.props.updateWaiting(true);
   }
 }
