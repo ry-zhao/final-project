@@ -26,8 +26,6 @@ function getRandomColor() {
   return color;
 }
 
-const oppositePits = [12, 11, 10, 9, 8, 7, null, 5, 4, 3, 2, 1, 0];
-
 const activeUsers = {};
 const activeRooms = [];
 
@@ -155,7 +153,6 @@ app.get('/api/joinroom/:roomId/user/:screenName', (req, res) => {
       }
       activeRooms[roomId].pitValues = positions;
       activeRooms[roomId].gameStarted = true;
-      console.log(activeRooms[roomId]);
       io.to(activeRooms[roomId].roomName).emit('room update', activeRooms[roomId]);
     }
     activeRooms[roomId].players++;
