@@ -26,3 +26,11 @@ uses WebSockets so users can play eachother in real time.
 - User can create a game room
 - User can connect to a game room
 - User can take their turn
+- User can win/lose/tie
+
+## Stretch Features
+
+- User can capture opponent's pieces
+- User can spectate ongoing games
+- User can chat with other users
+- User can challenge other player to rematch
