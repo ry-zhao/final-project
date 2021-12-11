@@ -38,3 +38,8 @@ Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.her
 - User can spectate ongoing games
 - User can chat with other users
 - User can challenge other player to rematch
+
+## Preview
+
+![Kalah IO Login](https://raw.githubusercontent.com/ry-zhao/final-project/master/server/public/images/kalah-1.gif)
+![Playing Mancala](https://raw.githubusercontent.com/ry-zhao/final-project/master/server/public/images/kalah-2.gif)
