@@ -44,8 +44,12 @@ Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.her
 ![Kalah IO Login](https://raw.githubusercontent.com/ry-zhao/final-project/master/server/public/images/kalah-1.gif)
 ![Playing Mancala](https://raw.githubusercontent.com/ry-zhao/final-project/master/server/public/images/kalah-2.gif)
 
-## System Requirements
+## Development
+
+### System Requirements
 
 - Node.js 10 or higher
 - NPM 6 or higher
 - PostgreSQL
+
+###
