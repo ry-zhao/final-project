@@ -19,3 +19,10 @@ uses WebSockets so users can play eachother in real time.
 - HTML5
 - CSS3
 - Heroku
+
+## Features Implemented
+
+- User can create a unique screen name
+- User can create a game room
+- User can connect to a game room
+- User can take their turn
