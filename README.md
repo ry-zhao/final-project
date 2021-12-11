@@ -52,4 +52,29 @@ Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.her
 - NPM 6 or higher
 - PostgreSQL
 
-###
+### Getting Started
+
+1. Clone the repository.
+
+ ```shell
+    git clone https://github.com/ry-zhao/final-project.git
+    cd final-project
+    ```
+
+2. Install all dependencies with NPM.
+
+    ```shell
+    npm install
+    ```
+
+3. Import the example database to PostgreSQL.
+
+    ```shell
+    npm run db:import
+    ```
+
+4. Start the project. Once started view the app by opening localhost:3000 in browser.
+
+    ```shell
+    npm run dev
+    ```
