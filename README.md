@@ -56,7 +56,7 @@ Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.her
 
 1. Clone the repository.
 
- ```shell
+    ```shell
     git clone https://github.com/ry-zhao/final-project.git
     cd final-project
     ```
