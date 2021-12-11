@@ -20,6 +20,10 @@ uses WebSockets so users can play eachother in real time.
 - CSS3
 - Heroku
 
+## Live Demo
+
+Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.herokuapp.com/)
+
 ## Features Implemented
 
 - User can create a unique screen name
