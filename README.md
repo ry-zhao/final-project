@@ -73,7 +73,13 @@ Try the application live at [http://kalah-io.herokuapp.com/](http://kalah-io.her
     npm run db:import
     ```
 
-4. Start the project. Once started view the app by opening localhost:3000 in browser.
+4. Copy .env file
+
+    ```shell
+    cp .env.example .env
+    ```
+
+5. Start the project. Once started view the app by opening localhost:3000 in browser.
 
     ```shell
     npm run dev
