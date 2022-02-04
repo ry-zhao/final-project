@@ -7,7 +7,7 @@ const { Server } = require('socket.io');
 const pg = require('pg');
 
 const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: 'postgress://dev:dev@localhost/libreKalah',
   ssl: {
     rejectUnauthorized: false
   }
@@ -25,6 +25,8 @@ function getRandomColor() {
   }
   return color;
 }
+
+const oppositePits = [12, 11, 10, 9, 8, 7, null, 5, 4, 3, 2, 1, 0, null];
 
 const activeUsers = {};
 const activeRooms = [];
@@ -91,6 +93,7 @@ app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
   }
   while (activeRooms[roomId].pitValues[currentPit].length !== 0) {
     const moved = activeRooms[roomId].pitValues[currentPit].pop();
+
     moved.x = Math.random();
     moved.y = Math.random();
     destination++;
@@ -104,6 +107,11 @@ app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
     } else {
       if (destination === 6) {
         destination = 7;
+      }
+    }
+    if (activeRooms[roomId].pitValues[destination].length === 0 && destination !== 6 && destination !== 13) {
+      while (activeRooms[roomId].pitValues[oppositePits[destination]].length > 0) {
+        activeRooms[roomId].pitValues[destination].push(activeRooms[roomId].pitValues[oppositePits[destination]].pop());
       }
     }
     activeRooms[roomId].pitValues[destination].push(moved);
