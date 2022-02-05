@@ -73,9 +73,10 @@ export default class Board extends React.Component {
     }
     const currentPit = Number(event.target.getAttribute('data-pit-num'));
     const { roomId } = this.props.room;
+    const { screenName } = this.props;
 
     fetch(
-      `/api/turn/currentPit/${currentPit}/roomId/${roomId}`,
+      `/api/turn/currentPit/${currentPit}/roomId/${roomId}/screenName/${screenName}`,
       { method: 'POST' }
     )
       .then(res => { this.props.updateWaiting(false); })

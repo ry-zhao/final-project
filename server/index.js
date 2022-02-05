@@ -82,10 +82,19 @@ app.get('/api/test', (req, res) => {
   res.status(200).json({ it: 'worked' });
 });
 
-app.post('/api/turn/currentPit/:currentPit/roomId/:roomId', (req, res) => {
+app.post('/api/turn/currentPit/:currentPit/roomId/:roomId/screenName/:screenName', (req, res) => {
   res.status(202).send();
-  const { roomId } = req.params;
+  const { roomId, screenName } = req.params;
   let { currentPit } = req.params;
+
+  if (activeRooms[roomId].activePlayer === 1) {
+    if (screenName !== activeRooms[roomId].playerOne) {
+      return;
+    }
+  } else if (screenName !== activeRooms[roomId].playerTwo) {
+    return;
+  }
+
   currentPit = Number(currentPit);
   let destination = currentPit;
   if (activeRooms[roomId].pitValues[currentPit].length === 0) {
