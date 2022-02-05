@@ -93,7 +93,7 @@ export default class Room extends React.Component {
           <div className="board-container">
           {modal}
           {spinner}
-          <Board room={room} socket={this.props.socket} updateWaiting={this.updateWaiting}
+          <Board room={room} socket={this.props.socket} screenName={this.props.screenName} updateWaiting={this.updateWaiting}
           updateError={this.updateError}/>
           </div>
       </main>
