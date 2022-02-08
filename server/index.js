@@ -91,8 +91,16 @@ app.post('/api/turn/currentPit/:currentPit/roomId/:roomId/screenName/:screenName
     if (screenName !== activeRooms[roomId].playerOne) {
       return;
     }
-  } else if (screenName !== activeRooms[roomId].playerTwo) {
-    return;
+    if (currentPit > 6) {
+      return;
+    }
+  } else {
+    if (screenName !== activeRooms[roomId].playerTwo) {
+      return;
+    }
+    if (currentPit < 7) {
+      return;
+    }
   }
 
   currentPit = Number(currentPit);
