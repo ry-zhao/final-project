@@ -18,8 +18,8 @@ export default class Board extends React.Component {
     const pits = [];
     const { room } = this.props;
     if (room) {
-      const pieces = room.pitValues.map(pit => pit.map(piece => <Piece key={piece.key}
-        x={piece.x} y={piece.y} gradient={piece.gradient} />));
+      const pieces = room.pitValues.map((pit, i) => pit.map(piece => <Piece key={piece.key}
+        x={piece.x} y={piece.y} gradient={piece.gradient} pitNum={i} />));
       for (let i = 0; i < 14; i++) {
         let pit;
         if (i === 6 || i === 13) {
@@ -68,10 +68,15 @@ export default class Board extends React.Component {
   }
 
   handleClick(event) {
-    if (event.target.className !== 'pit' || event.target.childElementCount === 0) {
+    if (event.target.className !== 'pit' && event.target.className !== 'piece') {
       return;
     }
-    const currentPit = Number(event.target.getAttribute('data-pit-num'));
+    let currentPit;
+    if (event.target.className === 'pit') {
+      currentPit = Number(event.target.getAttribute('data-pit-num'));
+    } else {
+      currentPit = Number(event.target.closest('.pit').getAttribute('data-pit-num'));
+    }
     const { roomId } = this.props.room;
     const { screenName } = this.props;
 
