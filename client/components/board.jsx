@@ -71,12 +71,8 @@ export default class Board extends React.Component {
     if (event.target.className !== 'pit' && event.target.className !== 'piece') {
       return;
     }
-    let currentPit;
-    if (event.target.className === 'pit') {
-      currentPit = Number(event.target.getAttribute('data-pit-num'));
-    } else {
-      currentPit = Number(event.target.closest('.pit').getAttribute('data-pit-num'));
-    }
+
+    const currentPit = Number(event.target.getAttribute('data-pit-num'));
     const { roomId } = this.props.room;
     const { screenName } = this.props;
 
